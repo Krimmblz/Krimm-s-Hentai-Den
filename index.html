@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Krimm's Hentai Den</title>
+    <style>
+      body {
+        background-color: #008080;
+        color: white;
+        font-family: "MS Sans Serif", Geneva, sans-serif;
+        font-size: 14px;
+        margin: 0;
+        padding: 0;
+      }
+      h1, h2 {
+        text-align: center;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid white;
+        height: 1px;
+        margin: 20px 0;
+      }
+      form {
+        margin: 0 auto;
+        max-width: 400px;
+        text-align: center;
+      }
+      label {
+        display: inline-block;
+        margin-bottom: 10px;
+      }
+      input[type="file"] {
+        display: block;
+        margin: 0 auto;
+      }
+      input[type="submit"] {
+        background-color: #1E90FF;
+        border: none;
+        color: white;
+        font-weight: bold;
+        padding: 10px 20px;
+        margin-top: 20px;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        background-color: #007FFF;
+      }
+      #preview {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .preview-item {
+        background-color: white;
+        border: 1px solid black;
+        box-shadow: 2px 2px 0 black;
+        flex: 0 0 200px;
+        height: 200px;
+        margin: 10px;
+        text-align: center;
+      }
+      .preview-item img {
+        max-width: 100%;
+        max-height: 100%;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Krimm's Hentai Den</h1>
+    
+    <!-- File Upload Form -->
+    <form method="post" enctype="multipart/form-data">
+      <label for="file">Choose files to upload:</label>
+      <input type="file" name="file[]" id="file" multiple><br><br>
+      <input type="submit" name="submit" value="Upload">
+    </form>
+    
+    <hr>
+    
+    <!-- List of Uploaded Files -->
+    <h2>List of Uploaded Files</h2>
+    <div id="preview">
+      <?php
+        // Directory where uploaded files are stored
+        $target_directory = "uploads/";
+        
+        // Get list of uploaded files
+        $uploaded_files = glob($target_directory . "*");
+        
+        // Display each uploaded file as a preview
+        foreach ($uploaded_files as $file) {
+          $file_type = mime_content_type($file);
+          if (strpos($file_type, "image") === 0) {
+            echo "<div class=\"preview-item\"><img src=\"$file\"><br>".basename($file)."</div>";
+          }
+          else {
+            echo "<div class=\"preview-item\">".basename($file)."</div>";
+          }
+        }
+      ?>
+    </div>
+  </body>
+</html>
